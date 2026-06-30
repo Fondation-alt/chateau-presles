@@ -43,13 +43,17 @@ exports.handler = async (event) => {
       }, 500);
     }
 
-    const current = await getGithubContent();
-    const nextContent = scope === "kitchen"
-      ? { ...current.content, kitchen: body.content.kitchen }
-      : body.content;
+    try {
+      const current = await getGithubContent();
+      const nextContent = scope === "kitchen"
+        ? { ...current.content, kitchen: body.content.kitchen }
+        : body.content;
 
-    await putGithubContent(nextContent, current.sha, scope);
-    return json({ ok: true });
+      const commit = await putGithubContent(nextContent, current.sha, scope);
+      return json({ ok: true, commit });
+    } catch (error) {
+      return json({ ok: false, message: readableGithubError(error) }, 500);
+    }
   }
 
   return json({ ok: false }, 405);
@@ -73,7 +77,8 @@ async function getGithubContent() {
   const response = await fetch(url, { headers: githubHeaders(token) });
 
   if (!response.ok) {
-    throw new Error(`GitHub GET ${response.status}`);
+    const detail = await response.text();
+    throw new Error(`GitHub GET ${response.status}: ${detail}`);
   }
 
   const data = await response.json();
@@ -109,6 +114,26 @@ async function putGithubContent(content, sha, scope) {
     const detail = await response.text();
     throw new Error(`GitHub PUT ${response.status}: ${detail}`);
   }
+
+  const data = await response.json();
+  return data.commit?.sha || "";
+}
+
+function readableGithubError(error) {
+  const message = String(error?.message || error);
+  if (message.includes("GitHub GET 401") || message.includes("GitHub PUT 401")) {
+    return "GitHub refuse le token. Créez un nouveau GITHUB_TOKEN avec l'autorisation Contents: Read and write.";
+  }
+  if (message.includes("GitHub GET 403") || message.includes("GitHub PUT 403")) {
+    return "GitHub refuse l'accès au dépôt. Vérifiez que le token a accès au dépôt chateau-presles et à Contents: Read and write.";
+  }
+  if (message.includes("GitHub GET 404") || message.includes("GitHub PUT 404")) {
+    return "GitHub ne trouve pas le dépôt, la branche ou content.json. Vérifiez GITHUB_OWNER, GITHUB_REPO, GITHUB_BRANCH et GITHUB_CONTENT_PATH dans Netlify.";
+  }
+  if (message.includes("sha")) {
+    return "GitHub a refusé l'écriture car le fichier a changé entre-temps. Rechargez l'administration puis republiez.";
+  }
+  return "GitHub n'a pas accepté la publication. Vérifiez les variables Netlify et les logs de déploiement.";
 }
 
 function readFallbackContent() {

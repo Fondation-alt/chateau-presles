@@ -23,11 +23,13 @@ async function startAdmin() {
 }
 
 async function loadAdminContent() {
-  const stored = localStorage.getItem("presles-content");
-  if (stored) return JSON.parse(stored);
   let response = await fetch("/.netlify/functions/content", { cache: "no-store" }).catch(() => null);
   if (!response?.ok) response = await fetch("content.json", { cache: "no-store" });
-  return response.json();
+  if (response?.ok) return response.json();
+
+  const stored = localStorage.getItem("presles-content");
+  if (stored) return JSON.parse(stored);
+  throw new Error("Contenu impossible à charger.");
 }
 
 function checkPin(storageKey) {
@@ -47,14 +49,15 @@ function checkPin(storageKey) {
   document.querySelector("#pin-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const pin = document.querySelector("#pin-input").value;
-    if (await verifyPin("admin", pin)) {
+    const access = await verifyPin("admin", pin);
+    if (access.ok) {
       adminState.pin = pin;
       sessionStorage.setItem("presles-admin-pin", pin);
       sessionStorage.setItem(storageKey, "true");
       window.location.reload();
       return;
     }
-    document.querySelector("#pin-status").textContent = "Le code indiqué n'est pas correct.";
+    document.querySelector("#pin-status").textContent = access.message || "Le code indiqué n'est pas correct.";
   });
   return false;
 }
@@ -67,7 +70,7 @@ function bindAdminActions() {
     const result = await publishContent("admin", adminState.pin, adminState.content);
     if (result.ok) {
       localStorage.removeItem("presles-content");
-      setStatus("Publié dans GitHub. Netlify redéploie le site ; attendez 30 secondes à 2 minutes.");
+      setStatus("Publié en ligne. Netlify redéploie le site ; attendez 30 secondes à 2 minutes.");
       return;
     }
     localStorage.setItem("presles-content", JSON.stringify(adminState.content, null, 2));
@@ -150,11 +153,19 @@ async function verifyPin(scope, pin) {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ scope, pin })
   }).catch(() => null);
+  if (!response) return { ok: false, message: "Connexion au serveur impossible." };
+  if (response.status === 404 && isLocalPreview()) {
+    return {
+      ok: false,
+      message: "Vous êtes sur la version locale de l'ordinateur. Ouvrez https://chateau-presles.netlify.app/admin.html pour modifier le site en ligne."
+    };
+  }
   if (response?.ok) {
     const data = await response.json();
-    return Boolean(data.ok);
+    return { ok: Boolean(data.ok), message: data.message };
   }
-  return false;
+  const data = await response.json().catch(() => ({}));
+  return { ok: false, message: data.message || "Le code indiqué n'est pas correct." };
 }
 
 async function publishContent(scope, pin, content) {
@@ -173,7 +184,16 @@ async function publishContent(scope, pin, content) {
   }).catch(() => null);
   if (!response) return { ok: false, message: "Connexion au serveur impossible." };
   const data = await response.json().catch(() => ({}));
-  return response.ok ? { ok: true } : { ok: false, message: data.message };
+  if (response.ok) return { ok: true };
+
+  if (response.status === 404 && isLocalPreview()) {
+    return {
+      ok: false,
+      message: "Vous êtes sur la version locale de l'ordinateur. Pour publier le vrai site, ouvrez https://chateau-presles.netlify.app/admin.html."
+    };
+  }
+
+  return { ok: false, message: data.message || `Publication refusée par le serveur (${response.status}).` };
 }
 
 function renderAdmin() {
@@ -704,7 +724,11 @@ function setStatus(message) {
   window.clearTimeout(setStatus.timer);
   setStatus.timer = window.setTimeout(() => {
     statusNode.textContent = "";
-  }, 4000);
+  }, 12000);
+}
+
+function isLocalPreview() {
+  return ["127.0.0.1", "localhost"].includes(window.location.hostname);
 }
 
 function escapeHtml(value) {

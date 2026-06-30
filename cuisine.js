@@ -15,11 +15,13 @@ async function start() {
 }
 
 async function loadContent() {
-  const stored = localStorage.getItem("presles-content");
-  if (stored) return JSON.parse(stored);
   let response = await fetch("/.netlify/functions/content", { cache: "no-store" }).catch(() => null);
   if (!response?.ok) response = await fetch("content.json", { cache: "no-store" });
-  return response.json();
+  if (response?.ok) return response.json();
+
+  const stored = localStorage.getItem("presles-content");
+  if (stored) return JSON.parse(stored);
+  throw new Error("Contenu impossible à charger.");
 }
 
 function checkPin() {
@@ -39,14 +41,15 @@ function checkPin() {
   document.querySelector("#pin-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const pin = document.querySelector("#pin-input").value;
-    if (await verifyPin("kitchen", pin)) {
+    const access = await verifyPin("kitchen", pin);
+    if (access.ok) {
       kitchenPin = pin;
       sessionStorage.setItem("presles-cuisine-pin", pin);
       sessionStorage.setItem("presles-cuisine-ok", "true");
       window.location.reload();
       return;
     }
-    document.querySelector("#pin-status").textContent = "Le code indiqué n'est pas correct.";
+    document.querySelector("#pin-status").textContent = access.message || "Le code indiqué n'est pas correct.";
   });
   return false;
 }
@@ -69,7 +72,7 @@ function bind() {
     const result = await publishContent("kitchen", kitchenPin, content);
     if (result.ok) {
       localStorage.removeItem("presles-content");
-      setStatus("Menu publié dans GitHub. Netlify redéploie le site ; attendez 30 secondes à 2 minutes.");
+      setStatus("Menu publié en ligne. Netlify redéploie le site ; attendez 30 secondes à 2 minutes.");
       return;
     }
     localStorage.setItem("presles-content", JSON.stringify(content, null, 2));
@@ -89,11 +92,19 @@ async function verifyPin(scope, pin) {
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ scope, pin })
   }).catch(() => null);
+  if (!response) return { ok: false, message: "Connexion au serveur impossible." };
+  if (response.status === 404 && isLocalPreview()) {
+    return {
+      ok: false,
+      message: "Vous êtes sur la version locale de l'ordinateur. Ouvrez https://chateau-presles.netlify.app/cuisine.html pour modifier le site en ligne."
+    };
+  }
   if (response?.ok) {
     const data = await response.json();
-    return Boolean(data.ok);
+    return { ok: Boolean(data.ok), message: data.message };
   }
-  return false;
+  const data = await response.json().catch(() => ({}));
+  return { ok: false, message: data.message || "Le code indiqué n'est pas correct." };
 }
 
 async function publishContent(scope, pin, value) {
@@ -104,7 +115,16 @@ async function publishContent(scope, pin, value) {
   }).catch(() => null);
   if (!response) return { ok: false, message: "Connexion au serveur impossible." };
   const data = await response.json().catch(() => ({}));
-  return response.ok ? { ok: true } : { ok: false, message: data.message };
+  if (response.ok) return { ok: true };
+
+  if (response.status === 404 && isLocalPreview()) {
+    return {
+      ok: false,
+      message: "Vous êtes sur la version locale de l'ordinateur. Pour publier le vrai site, ouvrez https://chateau-presles.netlify.app/cuisine.html."
+    };
+  }
+
+  return { ok: false, message: data.message || `Publication refusée par le serveur (${response.status}).` };
 }
 
 function readForm() {
@@ -130,5 +150,9 @@ function setStatus(message) {
   window.clearTimeout(setStatus.timer);
   setStatus.timer = window.setTimeout(() => {
     statusNode.textContent = "";
-  }, 4000);
+  }, 12000);
+}
+
+function isLocalPreview() {
+  return ["127.0.0.1", "localhost"].includes(window.location.hostname);
 }
