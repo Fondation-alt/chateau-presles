@@ -121,6 +121,46 @@ h2 {
   white-space: nowrap;
 }
 
+.team-menu {
+  position: relative;
+}
+
+.team-menu summary {
+  list-style: none;
+}
+
+.team-menu summary::-webkit-details-marker {
+  display: none;
+}
+
+.team-menu-links {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  display: grid;
+  min-width: 178px;
+  border: 1px solid var(--line);
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+
+.team-menu-links a {
+  padding: 12px 14px;
+  color: var(--ink);
+  font-size: 0.86rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.team-menu-links a:last-child {
+  border-bottom: 0;
+}
+
+.team-menu-links a:focus,
+.team-menu-links a:hover {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
 .home {
   display: grid;
   gap: 28px;

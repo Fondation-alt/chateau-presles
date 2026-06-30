@@ -19,15 +19,18 @@ exports.handler = async (event) => {
     }
 
     const scope = body.scope === "kitchen" ? "kitchen" : "admin";
-    const expected = scope === "kitchen"
-      ? process.env.KITCHEN_PIN
-      : process.env.ADMIN_PIN;
+    const expected = process.env.ADMIN_PIN;
+    const kitchenExpected = process.env.KITCHEN_PIN;
 
     if (!expected) {
       return json({ ok: false, message: "Code non configuré dans Netlify." }, 500);
     }
 
-    if (body.pin !== expected) {
+    const pinIsAllowed = scope === "kitchen"
+      ? body.pin === expected || (kitchenExpected && body.pin === kitchenExpected)
+      : body.pin === expected;
+
+    if (!pinIsAllowed) {
       return json({ ok: false, message: "Code incorrect." }, 401);
     }
 

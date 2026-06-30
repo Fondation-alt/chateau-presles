@@ -301,7 +301,18 @@ function renderKitchenEditor() {
     field("Titre", kitchen.title || "", (value) => kitchen.title = value),
     field("Date ou période", kitchen.date || "", (value) => kitchen.date = value),
     field("Texte du bouton", kitchen.cta || "", (value) => kitchen.cta = value),
-    area("Menu du jour ou de la semaine", kitchen.text || "", (value) => kitchen.text = value)
+    area("Menu du jour ou de la semaine", kitchen.text || "", (value) => kitchen.text = value),
+    button("Publier uniquement le menu cuisine", "admin-button primary", async () => {
+      setStatus("Publication du menu cuisine en cours...");
+      const result = await publishContent("kitchen", adminState.pin, adminState.content);
+      if (result.ok) {
+        localStorage.removeItem("presles-content");
+        setStatus("Menu cuisine publié en ligne. Netlify redéploie le site ; attendez 30 secondes à 2 minutes.");
+        return;
+      }
+      localStorage.setItem("presles-content", JSON.stringify(adminState.content, null, 2));
+      setStatus(result.message || "Publication du menu impossible. Une copie locale a été gardée sur cet ordinateur.");
+    })
   ]));
 }
 

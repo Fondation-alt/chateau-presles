@@ -95,7 +95,13 @@ function createTopbar() {
     tools.append(select);
   }
 
-  tools.append(el("a", "team-access", { href: "admin.html" }, "Équipe"));
+  const teamMenu = el("details", "team-menu");
+  teamMenu.append(el("summary", "team-access", {}, "Équipe"));
+  const teamLinks = el("div", "team-menu-links");
+  teamLinks.append(el("a", "", { href: "admin.html" }, "Administration"));
+  teamLinks.append(el("a", "", { href: "cuisine.html" }, "Cuisine"));
+  teamMenu.append(teamLinks);
+  tools.append(teamMenu);
   header.append(tools);
   return header;
 }
