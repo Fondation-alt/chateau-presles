@@ -877,9 +877,9 @@
   "admin": {},
   "kitchen": {
     "active": true,
-    "title": "Menu de la résidence",
-    "date": "À compléter",
-    "text": "Les menus seront publiés ici par l’équipe de cuisine.",
+    "title": "Menu du jour",
+    "date": "Le 30 Juin ",
+    "text": "Poissons",
     "cta": "Voir le menu"
   },
   "location": {
