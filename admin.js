@@ -67,7 +67,7 @@ function bindAdminActions() {
     const result = await publishContent("admin", adminState.pin, adminState.content);
     if (result.ok) {
       localStorage.removeItem("presles-content");
-      setStatus("Publié en ligne. Le site public est à jour.");
+      setStatus("Publié dans GitHub. Netlify redéploie le site ; attendez 30 secondes à 2 minutes.");
       return;
     }
     localStorage.setItem("presles-content", JSON.stringify(adminState.content, null, 2));

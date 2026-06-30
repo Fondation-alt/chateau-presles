@@ -4,7 +4,7 @@ Application web progressive pour la résidence artistique de la MNA Taylor.
 
 ## Déploiement Netlify
 
-Le site utilise Netlify pour publier le contenu directement depuis l'administration.
+Le site est statique pour les visiteurs. L'administration publie les modifications dans GitHub, puis Netlify redéploie automatiquement.
 
 Réglages Netlify :
 
@@ -15,21 +15,19 @@ Variables d'environnement Netlify recommandées :
 
 - `ADMIN_PIN` : code de l'administration générale
 - `KITCHEN_PIN` : code de l'espace cuisine
-- `NETLIFY_BLOBS_SITE_ID` : identifiant du site Netlify
-- `NETLIFY_BLOBS_TOKEN` : token personnel Netlify permettant à la fonction de sauvegarder le contenu
+- `GITHUB_TOKEN` : token GitHub avec accès au dépôt
+- `GITHUB_OWNER` : nom du compte ou de l'organisation GitHub
+- `GITHUB_REPO` : nom du dépôt
+- `GITHUB_BRANCH` : branche à modifier, souvent `main`
+- `GITHUB_CONTENT_PATH` : optionnel, par défaut `content.json`
 
 Exemple :
 
 - `ADMIN_PIN=presles2026`
 - `KITCHEN_PIN=cuisine2026`
-
-Le Site ID se trouve dans Netlify :
-
-`Site configuration` → `Site details` → `Site information`
-
-Le token se crée dans Netlify :
-
-`User settings` → `Applications` → `Personal access tokens`
+- `GITHUB_OWNER=votre-compte`
+- `GITHUB_REPO=chateau-presles`
+- `GITHUB_BRANCH=main`
 
 ## Pages
 
@@ -39,9 +37,7 @@ Le token se crée dans Netlify :
 
 ## Contenu
 
-`content.json` sert de contenu de secours.
-
-Après la première publication depuis l'administration, le contenu est sauvegardé en ligne par Netlify.
+`content.json` est le contenu public du site. L'administration le met à jour dans GitHub.
 
 Les images peuvent être placées dans `images/`.
 Les vidéos peuvent être placées dans `assets/`.

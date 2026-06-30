@@ -69,7 +69,7 @@ function bind() {
     const result = await publishContent("kitchen", kitchenPin, content);
     if (result.ok) {
       localStorage.removeItem("presles-content");
-      setStatus("Menu publié en ligne.");
+      setStatus("Menu publié dans GitHub. Netlify redéploie le site ; attendez 30 secondes à 2 minutes.");
       return;
     }
     localStorage.setItem("presles-content", JSON.stringify(content, null, 2));

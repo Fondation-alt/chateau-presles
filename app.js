@@ -31,10 +31,7 @@ async function init() {
 }
 
 async function loadContent() {
-  let response = await fetch("/.netlify/functions/content", { cache: "no-store" }).catch(() => null);
-  if (!response?.ok) {
-    response = await fetch("content.json", { cache: "no-store" });
-  }
+  const response = await fetch("content.json", { cache: "no-store" });
   if (!response.ok) {
     throw new Error("Impossible de charger le contenu.");
   }
