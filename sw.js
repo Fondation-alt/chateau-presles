@@ -1,4 +1,4 @@
-const CACHE_NAME = "presles-pwa-v3";
+const CACHE_NAME = "presles-pwa-v4";
 const ASSETS = [
   "./",
   "./index.html",

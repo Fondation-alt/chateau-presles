@@ -1,4 +1,5 @@
 let content;
+let kitchenPin = "";
 
 const form = document.querySelector("#kitchen-form");
 const statusNode = document.querySelector("#status-line");
@@ -16,7 +17,8 @@ async function start() {
 async function loadContent() {
   const stored = localStorage.getItem("presles-content");
   if (stored) return JSON.parse(stored);
-  const response = await fetch("content.json", { cache: "no-store" });
+  let response = await fetch("/.netlify/functions/content", { cache: "no-store" }).catch(() => null);
+  if (!response?.ok) response = await fetch("content.json", { cache: "no-store" });
   return response.json();
 }
 
@@ -34,9 +36,12 @@ function checkPin() {
       <p class="status-line" id="pin-status"></p>
     </form>
   `;
-  document.querySelector("#pin-form").addEventListener("submit", (event) => {
+  document.querySelector("#pin-form").addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (document.querySelector("#pin-input").value === content.kitchen.pin) {
+    const pin = document.querySelector("#pin-input").value;
+    if (await verifyPin("kitchen", pin, content.kitchen.pin)) {
+      kitchenPin = pin;
+      sessionStorage.setItem("presles-cuisine-pin", pin);
       sessionStorage.setItem("presles-cuisine-ok", "true");
       window.location.reload();
       return;
@@ -55,11 +60,20 @@ function fillForm() {
 }
 
 function bind() {
-  form.addEventListener("submit", (event) => {
+  kitchenPin = sessionStorage.getItem("presles-cuisine-pin") || kitchenPin;
+
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     readForm();
+    setStatus("Publication en cours...");
+    const result = await publishContent("kitchen", kitchenPin, content);
+    if (result.ok) {
+      localStorage.removeItem("presles-content");
+      setStatus("Menu publié en ligne.");
+      return;
+    }
     localStorage.setItem("presles-content", JSON.stringify(content, null, 2));
-    setStatus("Menu enregistré dans ce navigateur.");
+    setStatus(result.message || "Publication impossible. Une copie locale a été gardée sur cet ordinateur.");
   });
 
   document.querySelector("#download-json").addEventListener("click", () => {
@@ -67,6 +81,30 @@ function bind() {
     downloadJson(content, "content.json");
     setStatus("Export prêt.");
   });
+}
+
+async function verifyPin(scope, pin, fallbackPin) {
+  const response = await fetch("/.netlify/functions/auth", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ scope, pin })
+  }).catch(() => null);
+  if (response?.ok) {
+    const data = await response.json();
+    return Boolean(data.ok);
+  }
+  return pin === fallbackPin;
+}
+
+async function publishContent(scope, pin, value) {
+  const response = await fetch("/.netlify/functions/content", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ scope, pin, content: value })
+  }).catch(() => null);
+  if (!response) return { ok: false, message: "Connexion au serveur impossible." };
+  const data = await response.json().catch(() => ({}));
+  return response.ok ? { ok: true } : { ok: false, message: data.message };
 }
 
 function readForm() {

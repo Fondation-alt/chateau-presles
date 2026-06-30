@@ -10,20 +10,24 @@ const app = document.querySelector("#app");
 init();
 
 async function init() {
-  const content = await loadContent();
-  state.content = normalizeContent(content);
-  if (!state.content.languages?.some((language) => language.code === state.language)) {
-    state.language = state.content.meta.defaultLanguage || "fr";
-  }
-  document.title = content.meta.title;
-  document.documentElement.lang = state.language;
+  try {
+    const content = await loadContent();
+    state.content = normalizeContent(content);
+    if (!state.content.languages?.some((language) => language.code === state.language)) {
+      state.language = state.content.meta.defaultLanguage || "fr";
+    }
+    document.title = state.content.meta.title;
+    document.documentElement.lang = state.language;
 
-  if ("serviceWorker" in navigator) {
-    navigator.serviceWorker.register("sw.js").catch(() => {});
-  }
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    }
 
-  window.addEventListener("hashchange", route);
-  route();
+    window.addEventListener("hashchange", route);
+    route();
+  } catch (error) {
+    renderPublicError(error);
+  }
 }
 
 async function loadContent() {
@@ -36,7 +40,10 @@ async function loadContent() {
     }
   }
 
-  const response = await fetch("content.json", { cache: "no-store" });
+  let response = await fetch("/.netlify/functions/content", { cache: "no-store" }).catch(() => null);
+  if (!response?.ok) {
+    response = await fetch("content.json", { cache: "no-store" });
+  }
   if (!response.ok) {
     throw new Error("Impossible de charger le contenu.");
   }
@@ -63,12 +70,26 @@ function render() {
   }
 }
 
+function renderPublicError(error) {
+  app.innerHTML = "";
+  const main = el("main", "detail error-state");
+  main.append(el("h1", "", {}, "Le contenu ne peut pas être affiché"));
+  main.append(el("p", "summary", {}, "Le site n'est pas perdu. Le contenu publié semble incomplet ou mal formé. Ouvrez l'administration pour republier un contenu correct."));
+  const actions = el("section", "action-row");
+  actions.append(el("a", "action-button primary", { href: "admin.html" }, "Ouvrir l'administration"));
+  actions.append(el("a", "action-button", { href: "content.json" }, "Voir le fichier de secours"));
+  main.append(actions);
+  main.append(el("p", "technical-note", {}, error?.message || "Erreur inconnue"));
+  app.append(main);
+}
+
 function createTopbar() {
   const header = el("header", "topbar");
   const homeLink = el("a", "brand", { href: "#" });
   homeLink.append(el("span", "brand-title", {}, state.content.meta.title));
   homeLink.append(el("span", "brand-subtitle", {}, state.content.meta.subtitle));
   header.append(homeLink);
+  const tools = el("div", "topbar-tools");
 
   if (state.content.languages?.length > 1) {
     const select = el("select", "language-select", { "aria-label": "Langue" });
@@ -83,9 +104,11 @@ function createTopbar() {
       document.documentElement.lang = state.language;
       render();
     });
-    header.append(select);
+    tools.append(select);
   }
 
+  tools.append(el("a", "team-access", { href: "admin.html" }, "Équipe"));
+  header.append(tools);
   return header;
 }
 
@@ -419,9 +442,29 @@ function getSectionImage(section) {
 }
 
 function normalizeContent(content) {
+  if (!content || typeof content !== "object") {
+    throw new Error("Le contenu chargé n'est pas un objet JSON valide.");
+  }
   content.meta = content.meta || {};
+  content.meta.title = content.meta.title || content.home?.title || "Château de Presles";
+  content.meta.subtitle = content.meta.subtitle || content.home?.subtitle || "Résidence artistique de la MNA Taylor";
   content.meta.defaultLanguage = content.meta.defaultLanguage || content.meta.language || "fr";
   content.languages = content.languages?.length ? content.languages : [{ code: "fr", label: "Français" }];
+  content.ui = {
+    searchPlaceholder: "Rechercher une information",
+    backToHome: "Accueil",
+    copyPassword: "Copier le mot de passe",
+    copied: "Mot de passe copié",
+    openMaps: "Ouvrir dans Maps",
+    copyAddress: "Copier l’adresse",
+    addressCopied: "Adresse copiée",
+    ...(content.ui || {})
+  };
+  content.home = content.home || { title: content.meta.title, subtitle: content.meta.subtitle, welcome: "", image: "", translations: {} };
+  content.contactBar = content.contactBar || [];
+  content.navigation = content.navigation || [{ group: "Informations", items: [] }];
+  content.location = content.location || { address: "", mapsUrl: "" };
+  content.kitchen = content.kitchen || { active: false, title: "", date: "", text: "", cta: "Voir le menu" };
   content.sections = (content.sections || []).map((section) => ({
     ...section,
     icon: section.icon || "info",

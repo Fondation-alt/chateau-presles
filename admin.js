@@ -1,7 +1,8 @@
 const adminState = {
   content: null,
   currentId: null,
-  language: "fr"
+  language: "fr",
+  pin: ""
 };
 
 const listNode = document.querySelector("#section-list");
@@ -24,7 +25,8 @@ async function startAdmin() {
 async function loadAdminContent() {
   const stored = localStorage.getItem("presles-content");
   if (stored) return JSON.parse(stored);
-  const response = await fetch("content.json", { cache: "no-store" });
+  let response = await fetch("/.netlify/functions/content", { cache: "no-store" }).catch(() => null);
+  if (!response?.ok) response = await fetch("content.json", { cache: "no-store" });
   return response.json();
 }
 
@@ -42,9 +44,12 @@ function checkPin(storageKey, expectedPin) {
       <p class="status-line" id="pin-status"></p>
     </form>
   `;
-  document.querySelector("#pin-form").addEventListener("submit", (event) => {
+  document.querySelector("#pin-form").addEventListener("submit", async (event) => {
     event.preventDefault();
-    if (document.querySelector("#pin-input").value === expectedPin) {
+    const pin = document.querySelector("#pin-input").value;
+    if (await verifyPin("admin", pin, expectedPin)) {
+      adminState.pin = pin;
+      sessionStorage.setItem("presles-admin-pin", pin);
       sessionStorage.setItem(storageKey, "true");
       window.location.reload();
       return;
@@ -55,9 +60,18 @@ function checkPin(storageKey, expectedPin) {
 }
 
 function bindAdminActions() {
-  document.querySelector("#save-local").addEventListener("click", () => {
+  adminState.pin = sessionStorage.getItem("presles-admin-pin") || adminState.pin;
+
+  document.querySelector("#save-local").addEventListener("click", async () => {
+    setStatus("Publication en cours...");
+    const result = await publishContent("admin", adminState.pin, adminState.content);
+    if (result.ok) {
+      localStorage.removeItem("presles-content");
+      setStatus("Publié en ligne. Le site public est à jour.");
+      return;
+    }
     localStorage.setItem("presles-content", JSON.stringify(adminState.content, null, 2));
-    setStatus("Contenu enregistré dans ce navigateur.");
+    setStatus(result.message || "Publication impossible. Une copie locale a été gardée sur cet ordinateur.");
   });
 
   document.querySelector("#download-json").addEventListener("click", () => {
@@ -68,7 +82,12 @@ function bindAdminActions() {
   document.querySelector("#import-json").addEventListener("change", async (event) => {
     const file = event.target.files[0];
     if (!file) return;
-    adminState.content = normalizeAdminContent(JSON.parse(await file.text()));
+    try {
+      adminState.content = normalizeAdminContent(JSON.parse(await file.text()));
+    } catch {
+      setStatus("Cette sauvegarde n'est pas un JSON valide.");
+      return;
+    }
     adminState.currentId = adminState.content.sections[0]?.id || null;
     adminState.language = adminState.content.meta.defaultLanguage || "fr";
     renderAdmin();
@@ -122,6 +141,30 @@ function bindAdminActions() {
     adminState.language = languageSelect.value;
     renderAdmin();
   });
+}
+
+async function verifyPin(scope, pin, fallbackPin) {
+  const response = await fetch("/.netlify/functions/auth", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ scope, pin })
+  }).catch(() => null);
+  if (response?.ok) {
+    const data = await response.json();
+    return Boolean(data.ok);
+  }
+  return pin === fallbackPin;
+}
+
+async function publishContent(scope, pin, content) {
+  const response = await fetch("/.netlify/functions/content", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify({ scope, pin, content })
+  }).catch(() => null);
+  if (!response) return { ok: false, message: "Connexion au serveur impossible." };
+  const data = await response.json().catch(() => ({}));
+  return response.ok ? { ok: true } : { ok: false, message: data.message };
 }
 
 function renderAdmin() {

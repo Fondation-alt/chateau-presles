@@ -102,6 +102,25 @@ h2 {
   border-radius: 0;
 }
 
+.topbar-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.team-access {
+  display: inline-grid;
+  place-items: center;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--muted);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
 .home {
   display: grid;
   gap: 28px;
@@ -505,6 +524,14 @@ h2 {
 .menu-text {
   color: var(--muted);
   line-height: 1.65;
+}
+
+.technical-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.82rem;
+  overflow-wrap: anywhere;
 }
 
 .kitchen-notice {

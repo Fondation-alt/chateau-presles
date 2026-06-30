@@ -4,12 +4,22 @@ Application web progressive pour la résidence artistique de la MNA Taylor.
 
 ## Déploiement Netlify
 
-Le site est statique. Il n'y a pas de commande de build.
+Le site utilise Netlify pour publier le contenu directement depuis l'administration.
 
 Réglages Netlify :
 
-- Build command : laisser vide
+- Build command : `npm install`
 - Publish directory : `.`
+
+Variables d'environnement Netlify recommandées :
+
+- `ADMIN_PIN` : code de l'administration générale
+- `KITCHEN_PIN` : code de l'espace cuisine
+
+Exemple :
+
+- `ADMIN_PIN=presles2026`
+- `KITCHEN_PIN=cuisine2026`
 
 ## Pages
 
@@ -19,13 +29,15 @@ Réglages Netlify :
 
 ## Contenu
 
-Le contenu principal est stocké dans `content.json`.
+`content.json` sert de contenu de secours.
+
+Après la première publication depuis l'administration, le contenu est sauvegardé en ligne par Netlify.
 
 Les images peuvent être placées dans `images/`.
 Les vidéos peuvent être placées dans `assets/`.
 Les PDF peuvent être placés dans `pdf/`.
 
-## Codes par défaut
+## Codes par défaut de secours
 
 - Admin : `presles2026`
 - Cuisine : `cuisine2026`
