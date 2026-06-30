@@ -8,7 +8,7 @@ Le site utilise Netlify pour publier le contenu directement depuis l'administrat
 
 Réglages Netlify :
 
-- Build command : `npm install`
+- Build command : laisser vide
 - Publish directory : `.`
 
 Variables d'environnement Netlify recommandées :

@@ -1,8 +1,8 @@
-const fs = require("fs");
-const path = require("path");
-const { getStore } = require("@netlify/blobs");
+import fs from "node:fs";
+import path from "node:path";
+import { getStore } from "@netlify/blobs";
 
-exports.handler = async (event) => {
+export const handler = async (event) => {
   const store = getStore("presles-content");
 
   if (event.httpMethod === "GET") {
@@ -15,7 +15,13 @@ exports.handler = async (event) => {
   }
 
   if (event.httpMethod === "POST") {
-    const body = JSON.parse(event.body || "{}");
+    let body;
+    try {
+      body = JSON.parse(event.body || "{}");
+    } catch {
+      return json({ ok: false, message: "Données envoyées invalides." }, 400);
+    }
+
     const scope = body.scope === "kitchen" ? "kitchen" : "admin";
     const expected = scope === "kitchen"
       ? process.env.KITCHEN_PIN || "cuisine2026"

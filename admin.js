@@ -127,14 +127,15 @@ function bindAdminActions() {
   });
 
   document.querySelector("#reset-local").addEventListener("click", async () => {
-    if (!confirm("Revenir au fichier content.json et oublier les changements gardés dans ce navigateur ?")) return;
+    if (!confirm("Recharger le contenu actuellement publié en ligne et oublier les changements non publiés sur cet ordinateur ?")) return;
     localStorage.removeItem("presles-content");
-    const response = await fetch("content.json", { cache: "no-store" });
+    let response = await fetch("/.netlify/functions/content", { cache: "no-store" }).catch(() => null);
+    if (!response?.ok) response = await fetch("content.json", { cache: "no-store" });
     adminState.content = normalizeAdminContent(await response.json());
     adminState.currentId = adminState.content.sections[0]?.id || null;
     adminState.language = adminState.content.meta.defaultLanguage || "fr";
     renderAdmin();
-    setStatus("Contenu rechargé depuis le fichier.");
+    setStatus("Contenu rechargé depuis le site en ligne.");
   });
 
   languageSelect.addEventListener("change", () => {
@@ -157,6 +158,14 @@ async function verifyPin(scope, pin, fallbackPin) {
 }
 
 async function publishContent(scope, pin, content) {
+  const size = new Blob([JSON.stringify(content)]).size;
+  if (size > 4_500_000) {
+    return {
+      ok: false,
+      message: "Le contenu est trop lourd pour être publié. Réduisez les photos ou utilisez des chemins comme images/photo.jpg."
+    };
+  }
+
   const response = await fetch("/.netlify/functions/content", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -403,6 +412,10 @@ function cardVideosEditor(card) {
     wrap.append(item);
   });
   wrap.append(fileField("Importer une vidéo pour cette carte", "video/*", async (file) => {
+    if (file.size > 2_000_000) {
+      setStatus("Vidéo trop lourde pour être intégrée directement. Placez-la dans assets/ puis indiquez son chemin, par exemple assets/video.mp4.");
+      return;
+    }
     card.media.videos.push({ src: await readFileAsDataUrl(file), caption: file.name });
     renderEditor();
   }));
@@ -635,11 +648,38 @@ function slugify(value) {
 }
 
 function readFileAsDataUrl(file) {
+  if (file.type.startsWith("image/")) {
+    return resizeImage(file);
+  }
+
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onload = () => resolve(reader.result);
     reader.onerror = reject;
     reader.readAsDataURL(file);
+  });
+}
+
+function resizeImage(file) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      const maxSize = 1400;
+      const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+      const canvas = document.createElement("canvas");
+      canvas.width = Math.max(1, Math.round(img.width * scale));
+      canvas.height = Math.max(1, Math.round(img.height * scale));
+      const context = canvas.getContext("2d");
+      context.drawImage(img, 0, 0, canvas.width, canvas.height);
+      URL.revokeObjectURL(url);
+      resolve(canvas.toDataURL("image/jpeg", 0.78));
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      reject(new Error("Image impossible à lire."));
+    };
+    img.src = url;
   });
 }
 
