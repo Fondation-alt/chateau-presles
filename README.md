@@ -15,11 +15,21 @@ Variables d'environnement Netlify recommandées :
 
 - `ADMIN_PIN` : code de l'administration générale
 - `KITCHEN_PIN` : code de l'espace cuisine
+- `NETLIFY_BLOBS_SITE_ID` : identifiant du site Netlify
+- `NETLIFY_BLOBS_TOKEN` : token personnel Netlify permettant à la fonction de sauvegarder le contenu
 
 Exemple :
 
 - `ADMIN_PIN=presles2026`
 - `KITCHEN_PIN=cuisine2026`
+
+Le Site ID se trouve dans Netlify :
+
+`Site configuration` → `Site details` → `Site information`
+
+Le token se crée dans Netlify :
+
+`User settings` → `Applications` → `Personal access tokens`
 
 ## Pages
 

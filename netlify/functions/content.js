@@ -3,7 +3,7 @@ import path from "node:path";
 import { getStore } from "@netlify/blobs";
 
 export const handler = async (event) => {
-  const store = getStore("presles-content");
+  const store = getBlobStore();
 
   if (event.httpMethod === "GET") {
     const stored = await store.get("content", { type: "json" });
@@ -48,6 +48,25 @@ export const handler = async (event) => {
 
   return json({ ok: false }, 405);
 };
+
+function getBlobStore() {
+  try {
+    return getStore("presles-content");
+  } catch (error) {
+    const siteID = process.env.NETLIFY_BLOBS_SITE_ID || process.env.NETLIFY_SITE_ID;
+    const token = process.env.NETLIFY_BLOBS_TOKEN || process.env.NETLIFY_AUTH_TOKEN;
+
+    if (siteID && token) {
+      return getStore({
+        name: "presles-content",
+        siteID,
+        token
+      });
+    }
+
+    throw new Error("Stockage Netlify non configuré. Ajoutez NETLIFY_BLOBS_SITE_ID et NETLIFY_BLOBS_TOKEN dans les variables d'environnement Netlify.");
+  }
+}
 
 function json(value, statusCode = 200) {
   return {

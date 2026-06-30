@@ -31,15 +31,6 @@ async function init() {
 }
 
 async function loadContent() {
-  const localContent = localStorage.getItem("presles-content");
-  if (localContent) {
-    try {
-      return JSON.parse(localContent);
-    } catch {
-      localStorage.removeItem("presles-content");
-    }
-  }
-
   let response = await fetch("/.netlify/functions/content", { cache: "no-store" }).catch(() => null);
   if (!response?.ok) {
     response = await fetch("content.json", { cache: "no-store" });
