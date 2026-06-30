@@ -21,10 +21,6 @@ Variables d'environnement Netlify recommandées :
 - `GITHUB_BRANCH` : branche à modifier, souvent `main`
 - `GITHUB_CONTENT_PATH` : optionnel, par défaut `content.json`
 
-Exemple :
-
-- `ADMIN_PIN=presles2026`
-- `KITCHEN_PIN=cuisine2026`
 - `GITHUB_OWNER=votre-compte`
 - `GITHUB_REPO=chateau-presles`
 - `GITHUB_BRANCH=main`
@@ -43,9 +39,8 @@ Les images peuvent être placées dans `images/`.
 Les vidéos peuvent être placées dans `assets/`.
 Les PDF peuvent être placés dans `pdf/`.
 
-## Codes par défaut de secours
+## Codes
 
-- Admin : `presles2026`
-- Cuisine : `cuisine2026`
+Les codes admin et cuisine se définissent uniquement dans Netlify avec `ADMIN_PIN` et `KITCHEN_PIN`.
 
-Ces codes sont modifiables dans l'administration.
+Ne les écrivez jamais dans les fichiers du dépôt GitHub.

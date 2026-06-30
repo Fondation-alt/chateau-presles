@@ -8,7 +8,7 @@ start();
 
 async function start() {
   content = await loadContent();
-  content.kitchen = content.kitchen || { pin: "cuisine2026", active: true, title: "", date: "", text: "", cta: "Voir le menu" };
+  content.kitchen = content.kitchen || { active: true, title: "", date: "", text: "", cta: "Voir le menu" };
   if (!checkPin()) return;
   fillForm();
   bind();
@@ -39,7 +39,7 @@ function checkPin() {
   document.querySelector("#pin-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const pin = document.querySelector("#pin-input").value;
-    if (await verifyPin("kitchen", pin, content.kitchen.pin)) {
+    if (await verifyPin("kitchen", pin)) {
       kitchenPin = pin;
       sessionStorage.setItem("presles-cuisine-pin", pin);
       sessionStorage.setItem("presles-cuisine-ok", "true");
@@ -83,7 +83,7 @@ function bind() {
   });
 }
 
-async function verifyPin(scope, pin, fallbackPin) {
+async function verifyPin(scope, pin) {
   const response = await fetch("/.netlify/functions/auth", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -93,7 +93,7 @@ async function verifyPin(scope, pin, fallbackPin) {
     const data = await response.json();
     return Boolean(data.ok);
   }
-  return pin === fallbackPin;
+  return false;
 }
 
 async function publishContent(scope, pin, value) {

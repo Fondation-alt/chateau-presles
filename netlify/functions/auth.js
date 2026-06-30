@@ -6,8 +6,12 @@ exports.handler = async (event) => {
   const body = JSON.parse(event.body || "{}");
   const scope = body.scope === "kitchen" ? "kitchen" : "admin";
   const expected = scope === "kitchen"
-    ? process.env.KITCHEN_PIN || "cuisine2026"
-    : process.env.ADMIN_PIN || "presles2026";
+    ? process.env.KITCHEN_PIN
+    : process.env.ADMIN_PIN;
+
+  if (!expected) {
+    return json({ ok: false, message: "Code non configuré dans Netlify." }, 500);
+  }
 
   return json({ ok: body.pin === expected });
 };

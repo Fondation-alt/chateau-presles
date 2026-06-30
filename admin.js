@@ -15,7 +15,7 @@ startAdmin();
 
 async function startAdmin() {
   adminState.content = normalizeAdminContent(await loadAdminContent());
-  if (!checkPin("presles-admin-ok", adminState.content.admin.pin)) return;
+  if (!checkPin("presles-admin-ok")) return;
   adminState.language = adminState.content.meta.defaultLanguage || "fr";
   adminState.currentId = adminState.content.sections[0]?.id || null;
   bindAdminActions();
@@ -30,7 +30,7 @@ async function loadAdminContent() {
   return response.json();
 }
 
-function checkPin(storageKey, expectedPin) {
+function checkPin(storageKey) {
   if (sessionStorage.getItem(storageKey) === "true") return true;
   mainNode.innerHTML = `
     <section class="admin-intro">
@@ -47,7 +47,7 @@ function checkPin(storageKey, expectedPin) {
   document.querySelector("#pin-form").addEventListener("submit", async (event) => {
     event.preventDefault();
     const pin = document.querySelector("#pin-input").value;
-    if (await verifyPin("admin", pin, expectedPin)) {
+    if (await verifyPin("admin", pin)) {
       adminState.pin = pin;
       sessionStorage.setItem("presles-admin-pin", pin);
       sessionStorage.setItem(storageKey, "true");
@@ -144,7 +144,7 @@ function bindAdminActions() {
   });
 }
 
-async function verifyPin(scope, pin, fallbackPin) {
+async function verifyPin(scope, pin) {
   const response = await fetch("/.netlify/functions/auth", {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -154,7 +154,7 @@ async function verifyPin(scope, pin, fallbackPin) {
     const data = await response.json();
     return Boolean(data.ok);
   }
-  return pin === fallbackPin;
+  return false;
 }
 
 async function publishContent(scope, pin, content) {
@@ -270,8 +270,7 @@ function renderHomeEditor() {
   ]));
 
   editorNode.append(panel("Codes d'accès", [
-    field("Code admin général", adminState.content.admin.pin || "", (value) => adminState.content.admin.pin = value),
-    field("Code cuisine", adminState.content.kitchen.pin || "", (value) => adminState.content.kitchen.pin = value)
+    note("Les codes admin et cuisine se modifient dans Netlify, section Environment variables. Ils ne sont pas stockés dans le contenu public.")
   ]));
 }
 
@@ -530,6 +529,13 @@ function checkbox(labelText, checked, onInput) {
   return label;
 }
 
+function note(text) {
+  const node = document.createElement("p");
+  node.className = "admin-note";
+  node.textContent = text;
+  return node;
+}
+
 function fileField(labelText, accept, onFile) {
   const label = document.createElement("label");
   label.className = "admin-file";
@@ -614,8 +620,8 @@ function normalizeAdminContent(content) {
   content.meta = content.meta || {};
   content.meta.defaultLanguage = content.meta.defaultLanguage || content.meta.language || "fr";
   content.languages = content.languages?.length ? content.languages : [{ code: "fr", label: "Français" }];
-  content.admin = content.admin || { pin: "presles2026" };
-  content.kitchen = content.kitchen || { pin: "cuisine2026", active: true, title: "", date: "", text: "", cta: "Voir le menu" };
+  content.admin = content.admin || {};
+  content.kitchen = content.kitchen || { active: true, title: "", date: "", text: "", cta: "Voir le menu" };
   content.location = content.location || { address: "", mapsUrl: "" };
   content.contactBar = content.contactBar || [];
   content.home = content.home || { title: "", subtitle: "", welcome: "", image: "", translations: {} };
