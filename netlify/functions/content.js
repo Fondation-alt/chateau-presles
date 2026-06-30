@@ -1,9 +1,9 @@
-import fs from "node:fs";
-import path from "node:path";
+const fs = require("fs");
+const path = require("path");
 
 const CONTENT_PATH = process.env.GITHUB_CONTENT_PATH || "content.json";
 
-export const handler = async (event) => {
+exports.handler = async (event) => {
   if (event.httpMethod === "GET") {
     const github = await getGithubContent().catch(() => null);
     if (github?.content) return json(github.content);
@@ -66,9 +66,7 @@ async function getGithubContent() {
   }
 
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${CONTENT_PATH}?ref=${encodeURIComponent(branch)}`;
-  const response = await fetch(url, {
-    headers: githubHeaders(token)
-  });
+  const response = await fetch(url, { headers: githubHeaders(token) });
 
   if (!response.ok) {
     throw new Error(`GitHub GET ${response.status}`);
