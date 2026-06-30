@@ -1,0 +1,892 @@
+{
+  "meta": {
+    "title": "Château de Presles",
+    "subtitle": "Résidence artistique de la MNA Taylor",
+    "language": "fr",
+    "themeColor": "#f7f4ef",
+    "defaultLanguage": "fr"
+  },
+  "ui": {
+    "searchPlaceholder": "Rechercher une information",
+    "backToHome": "Accueil",
+    "copyPassword": "Copier le mot de passe",
+    "copied": "Mot de passe copié",
+    "openSection": "Ouvrir",
+    "usefulInfo": "Informations utiles",
+    "team": "Équipe",
+    "faq": "Questions fréquentes",
+    "translations": {
+      "en": {
+        "searchPlaceholder": "Search for information",
+        "backToHome": "Home",
+        "copyPassword": "Copy password",
+        "copied": "Password copied",
+        "openMaps": "Open in Maps",
+        "copyAddress": "Copy address",
+        "addressCopied": "Address copied"
+      },
+      "es": {
+        "searchPlaceholder": "Buscar información",
+        "backToHome": "Inicio",
+        "copyPassword": "Copiar contraseña",
+        "copied": "Contraseña copiada",
+        "openMaps": "Abrir en Maps",
+        "copyAddress": "Copiar dirección",
+        "addressCopied": "Dirección copiada"
+      }
+    },
+    "openMaps": "Ouvrir dans Maps",
+    "copyAddress": "Copier l’adresse",
+    "addressCopied": "Adresse copiée"
+  },
+  "home": {
+    "title": "Château de Presles",
+    "subtitle": "Résidence artistique de la MNA Taylor",
+    "welcome": "Chères artistes, chers artistes,\n\nBienvenue à la résidence artistique de la MNA Taylor.\n\nVous trouverez ici les informations essentielles pour faciliter votre séjour et répondre aux questions les plus fréquentes.",
+    "image": "images/chateau-presles-accueil.jpg",
+    "translations": {
+      "en": {
+        "title": "Château de Presles",
+        "subtitle": "MNA Taylor artist residency",
+        "welcome": "Dear artists,\n\nWelcome to the MNA Taylor artist residency.\n\nYou will find here the essential information to make your stay easier and answer the most frequent questions."
+      },
+      "es": {
+        "title": "Château de Presles",
+        "subtitle": "Residencia artística de la MNA Taylor",
+        "welcome": "Queridas artistas, queridos artistas,\n\nBienvenidas y bienvenidos a la residencia artística de la MNA Taylor.\n\nAquí encontrarán la información esencial para facilitar su estancia y responder a las preguntas más frecuentes."
+      }
+    }
+  },
+  "contactBar": [
+    {
+      "label": "Urgence sur place",
+      "value": "À compléter",
+      "href": "tel:+33000000000"
+    },
+    {
+      "label": "Intendance",
+      "value": "À compléter",
+      "href": "tel:+33000000000"
+    }
+  ],
+  "navigation": [
+    {
+      "group": "Avant votre arrivée",
+      "items": [
+        "venir",
+        "parkings",
+        "arrivee-autonomie",
+        "domaine",
+        "cles-acces"
+      ],
+      "translations": {
+        "en": {
+          "group": "Before you arrive"
+        },
+        "es": {
+          "group": "Antes de su llegada"
+        }
+      }
+    },
+    {
+      "group": "Informations pratiques",
+      "items": [
+        "wifi",
+        "restauration",
+        "boissons",
+        "petit-dejeuner",
+        "poubelles",
+        "menage"
+      ],
+      "translations": {
+        "en": {
+          "group": "Practical information"
+        },
+        "es": {
+          "group": "Información práctica"
+        }
+      }
+    },
+    {
+      "group": "Équipements & services",
+      "items": [
+        "salle-sport",
+        "piscine",
+        "jacuzzi",
+        "velos",
+        "massage",
+        "barbecue",
+        "pique-nique"
+      ],
+      "translations": {
+        "en": {
+          "group": "Facilities & services"
+        },
+        "es": {
+          "group": "Equipamientos y servicios"
+        }
+      }
+    },
+    {
+      "group": "Besoin d'aide",
+      "items": [
+        "equipe",
+        "faq",
+        "contacts"
+      ],
+      "translations": {
+        "en": {
+          "group": "Need help"
+        },
+        "es": {
+          "group": "Necesita ayuda"
+        }
+      }
+    }
+  ],
+  "sections": [
+    {
+      "id": "venir",
+      "title": "Comment venir au Château",
+      "summary": "Adresse, portail et accès au domaine.",
+      "image": "images/acces-chateau.jpg",
+      "body": [
+        "Le Château de Presles se situe au 155 avenue de Vichy, 03300 Cusset.",
+        "Le portail est peu visible depuis la route. Ralentissez à l'approche de l'adresse.",
+        "L'entrée comporte une pente importante. Prenez le temps de manœuvrer, surtout avec des bagages."
+      ],
+      "cards": [
+        {
+          "title": "Adresse",
+          "lines": [
+            "155 avenue de Vichy",
+            "03300 Cusset"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        },
+        {
+          "title": "À retenir",
+          "lines": [
+            "Portail discret depuis la route",
+            "Pente importante à l'entrée",
+            "Avancer lentement dans l'allée"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "route",
+      "media": {
+        "image": "images/acces-chateau.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "parkings",
+      "title": "Les parkings",
+      "summary": "Où stationner à votre arrivée et pendant le séjour.",
+      "image": "images/parkings.jpg",
+      "body": [
+        "Deux zones de stationnement sont prévues sur le domaine.",
+        "Merci de respecter les emplacements afin de laisser les circulations libres pour les autres résidentes et résidents."
+      ],
+      "cards": [
+        {
+          "title": "Parking A",
+          "lines": [
+            "À utiliser en priorité à l'arrivée.",
+            "Pratique pour déposer les bagages."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        },
+        {
+          "title": "Parking B",
+          "lines": [
+            "À privilégier pour le stationnement pendant le séjour.",
+            "Laisser les accès techniques dégagés."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "parking",
+      "media": {
+        "image": "images/parkings.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "arrivee-autonomie",
+      "title": "Arrivée en autonomie",
+      "summary": "Boîte à clés, portillon et premières étapes.",
+      "image": "images/arrivee-autonomie.jpg",
+      "body": [
+        "Lorsque votre arrivée est prévue en autonomie, les informations utiles vous sont transmises avant votre venue.",
+        "Le portillon reste ouvert selon les consignes communiquées par l'équipe.",
+        "La boîte à clés permet de récupérer les éléments d'accès nécessaires à votre installation."
+      ],
+      "cards": [
+        {
+          "title": "Code boîte à clés",
+          "lines": [
+            "À compléter dans l'interface d'administration.",
+            "Refermer la boîte après usage."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        },
+        {
+          "title": "À votre arrivée",
+          "lines": [
+            "Récupérer les clés et badges.",
+            "Vérifier le nom indiqué pour votre chambre.",
+            "Contacter l'équipe seulement en cas de difficulté."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "keybox",
+      "media": {
+        "image": "images/arrivee-autonomie.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "domaine",
+      "title": "Se repérer sur le domaine",
+      "summary": "Bâtiments, équipements et zones principales.",
+      "image": "images/plan-domaine.jpg",
+      "body": [
+        "Le domaine rassemble plusieurs espaces de vie, de travail et de détente.",
+        "Un plan du domaine peut être ajouté ici afin de faciliter les premiers déplacements."
+      ],
+      "cards": [
+        {
+          "title": "Espaces principaux",
+          "lines": [
+            "Maison principale",
+            "Grange",
+            "Piscine",
+            "Salle de sport",
+            "Parkings"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "map",
+      "media": {
+        "image": "images/plan-domaine.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "cles-acces",
+      "title": "Les clés et accès",
+      "summary": "Badges, clé de chambre et grande clé.",
+      "image": "images/cles-acces.jpg",
+      "body": [
+        "Plusieurs éléments d'accès peuvent vous être remis selon votre chambre et les espaces dont vous aurez besoin.",
+        "Les badges ouvrent les accès concernés. Merci de les conserver avec soin pendant toute la durée du séjour."
+      ],
+      "cards": [
+        {
+          "title": "Éléments remis",
+          "lines": [
+            "Badge bâtiment",
+            "Badge portail",
+            "Clé chambre",
+            "Grande clé selon besoins"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        },
+        {
+          "title": "Fonctionnement",
+          "lines": [
+            "Présenter le badge devant le lecteur.",
+            "Attendre le signal avant d'ouvrir.",
+            "Signaler rapidement toute perte."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "key",
+      "media": {
+        "image": "images/cles-acces.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "wifi",
+      "title": "Wi-Fi",
+      "summary": "Réseaux disponibles et mot de passe commun.",
+      "image": "images/wifi.jpg",
+      "body": [
+        "Le château possède plusieurs réseaux Wi-Fi.",
+        "Tous utilisent le même mot de passe. Choisissez le réseau qui capte le mieux dans votre espace."
+      ],
+      "password": "A_COMPLETER",
+      "cards": [
+        {
+          "title": "Réseaux",
+          "lines": [
+            "Plusieurs réseaux peuvent apparaître selon votre emplacement.",
+            "Le mot de passe reste identique pour chacun."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "wifi",
+      "media": {
+        "image": "images/wifi.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "restauration",
+      "title": "Restauration",
+      "summary": "Repas, réservation et horaires.",
+      "image": "images/restauration.jpg",
+      "body": [
+        "Les repas sont proposés dans un esprit simple et convivial, adapté à la vie de résidence.",
+        "Les menus sont affichés sur ardoise.",
+        "La réservation se fait 72 h à l'avance."
+      ],
+      "cards": [
+        {
+          "title": "Tarif",
+          "lines": [
+            "Repas : 18 €"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        },
+        {
+          "title": "Réservation",
+          "lines": [
+            "72 h à l'avance",
+            "Horaires à compléter selon l'organisation de la résidence"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "meal",
+      "media": {
+        "image": "images/restauration.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "boissons",
+      "title": "Boissons",
+      "summary": "Frigo, feuille de consommation et règlement.",
+      "image": "images/boissons.jpg",
+      "body": [
+        "Des boissons sont disponibles dans le frigo prévu à cet effet.",
+        "Le fonctionnement repose sur la confiance : chaque consommation est notée sur la feuille.",
+        "Le paiement se fait au départ."
+      ],
+      "cards": [
+        {
+          "title": "Fonctionnement",
+          "lines": [
+            "Se servir dans le frigo.",
+            "Noter sa consommation.",
+            "Régler au moment du départ."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        },
+        {
+          "title": "Carte des boissons",
+          "lines": [
+            "À compléter dans l'interface d'administration."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "drink",
+      "media": {
+        "image": "images/boissons.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "petit-dejeuner",
+      "title": "Petit-déjeuner",
+      "summary": "Horaires et pain du matin.",
+      "image": "images/petit-dejeuner.jpg",
+      "body": [
+        "Le petit-déjeuner est accessible de 7 h à 11 h.",
+        "Le pain est servi entre 8 h et 8 h 30."
+      ],
+      "cards": [
+        {
+          "title": "Horaires",
+          "lines": [
+            "7 h à 11 h",
+            "Pain entre 8 h et 8 h 30"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "coffee",
+      "media": {
+        "image": "images/petit-dejeuner.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "poubelles",
+      "title": "Poubelles",
+      "summary": "Tri, verre et bonnes pratiques.",
+      "image": "images/poubelles.jpg",
+      "body": [
+        "Merci de respecter les consignes de tri du domaine.",
+        "Le verre doit être déposé dans l'espace prévu à cet effet.",
+        "Ces gestes simples aident à maintenir une résidence agréable pour toutes et tous."
+      ],
+      "cards": [
+        {
+          "title": "Tri",
+          "lines": [
+            "Trier les déchets selon les bacs indiqués.",
+            "Déposer le verre séparément.",
+            "Ne pas laisser de sacs dans les espaces communs."
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "recycle",
+      "media": {
+        "image": "images/poubelles.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "menage",
+      "title": "Ménage",
+      "summary": "Nettoyage hebdomadaire et espaces partagés.",
+      "image": "images/menage.jpg",
+      "body": [
+        "Un nettoyage hebdomadaire est organisé.",
+        "Dans les espaces partagés, chacun veille à laisser les lieux propres après usage."
+      ],
+      "cards": [
+        {
+          "title": "Rythme",
+          "lines": [
+            "Nettoyage hebdomadaire",
+            "Détails à compléter selon les chambres et espaces concernés"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "sparkle",
+      "media": {
+        "image": "images/menage.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "salle-sport",
+      "title": "Salle de sport",
+      "summary": "Accès, clé et horaires.",
+      "image": "images/salle-sport.jpg",
+      "body": [
+        "La salle de sport est accessible avec la clé prévue.",
+        "Merci de respecter les horaires et de ranger le matériel après utilisation."
+      ],
+      "cards": [
+        {
+          "title": "Accès",
+          "lines": [
+            "Clé nécessaire",
+            "Horaires à compléter",
+            "Ranger le matériel après usage"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "fitness",
+      "media": {
+        "image": "images/salle-sport.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "piscine",
+      "title": "Piscine",
+      "summary": "Horaires et consignes.",
+      "image": "images/piscine.jpg",
+      "body": [
+        "La piscine est un espace de détente partagé.",
+        "Merci de respecter les horaires, le calme du lieu et les consignes affichées sur place."
+      ],
+      "cards": [
+        {
+          "title": "Consignes",
+          "lines": [
+            "Horaires à compléter",
+            "Respecter le calme du domaine",
+            "Refermer les accès après passage"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "pool",
+      "media": {
+        "image": "images/piscine.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "jacuzzi",
+      "title": "Jacuzzi",
+      "summary": "Accès 24 h/24 et boutons de commande.",
+      "image": "images/jacuzzi.jpg",
+      "body": [
+        "Le jacuzzi est accessible 24 h/24.",
+        "Les boutons permettent de régler les fonctions principales. Merci de remettre l'espace en ordre après utilisation."
+      ],
+      "cards": [
+        {
+          "title": "Commandes",
+          "lines": [
+            "Bouton 1 : à compléter",
+            "Bouton 2 : à compléter",
+            "Refermer et laisser propre après usage"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "water",
+      "media": {
+        "image": "images/jacuzzi.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "velos",
+      "title": "Vélos",
+      "summary": "Cinq vélos disponibles.",
+      "image": "images/velos.jpg",
+      "body": [
+        "Cinq vélos sont disponibles pour les résidentes et résidents.",
+        "Merci de vérifier leur disponibilité avant usage et de les rapporter à l'emplacement prévu."
+      ],
+      "cards": [
+        {
+          "title": "Tarif",
+          "lines": [
+            "5 vélos",
+            "10 €"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "bike",
+      "media": {
+        "image": "images/velos.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "massage",
+      "title": "Massage",
+      "summary": "Sandrine, salle de massage et tarif.",
+      "image": "images/massage.jpg",
+      "body": [
+        "Des massages peuvent être proposés avec Sandrine dans la salle de massage.",
+        "La réservation et les disponibilités sont à confirmer sur place."
+      ],
+      "cards": [
+        {
+          "title": "Tarif",
+          "lines": [
+            "Sandrine",
+            "85 €",
+            "Salle de massage"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "hand",
+      "media": {
+        "image": "images/massage.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "barbecue",
+      "title": "Barbecue",
+      "summary": "Utilisation et participation.",
+      "image": "images/barbecue.jpg",
+      "body": [
+        "Le barbecue peut être utilisé selon les consignes de sécurité et les conditions météo.",
+        "Merci de nettoyer l'espace après usage."
+      ],
+      "cards": [
+        {
+          "title": "Participation",
+          "lines": [
+            "5 €",
+            "Nettoyage après utilisation"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "flame",
+      "media": {
+        "image": "images/barbecue.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "pique-nique",
+      "title": "Pique-nique",
+      "summary": "Formule simple pour les journées de travail ou de sortie.",
+      "image": "images/pique-nique.jpg",
+      "body": [
+        "Une formule pique-nique peut être proposée pour accompagner une journée de travail ou de sortie.",
+        "Merci de la demander à l'avance."
+      ],
+      "cards": [
+        {
+          "title": "Tarif",
+          "lines": [
+            "5 €",
+            "Demande à effectuer à l'avance"
+          ],
+          "media": {
+            "image": "",
+            "videos": []
+          }
+        }
+      ],
+      "icon": "basket",
+      "media": {
+        "image": "images/pique-nique.jpg",
+        "videos": []
+      },
+      "translations": {}
+    },
+    {
+      "id": "equipe",
+      "title": "Présentation de l'équipe",
+      "summary": "Les personnes qui accompagnent la résidence.",
+      "image": "images/equipe.jpg",
+      "body": [
+        "La résidence est accompagnée par une équipe attentive à la qualité du séjour et au respect de l'esprit du lieu."
+      ],
+      "people": [
+        {
+          "name": "Théo",
+          "role": "À compléter"
+        },
+        {
+          "name": "Sylvie",
+          "role": "À compléter"
+        },
+        {
+          "name": "Aurore",
+          "role": "À compléter"
+        },
+        {
+          "name": "Stéphane",
+          "role": "À compléter"
+        }
+      ],
+      "icon": "team",
+      "media": {
+        "image": "images/equipe.jpg",
+        "videos": []
+      },
+      "translations": {},
+      "cards": []
+    },
+    {
+      "id": "faq",
+      "title": "FAQ",
+      "summary": "Réponses aux questions les plus fréquentes.",
+      "image": "images/faq.jpg",
+      "body": [
+        "Cette rubrique rassemble les réponses utiles pendant le séjour. Elle pourra être enrichie avec les questions reprises de StyQR."
+      ],
+      "faq": [
+        {
+          "question": "Quel réseau Wi-Fi choisir ?",
+          "answer": "Choisissez le réseau qui capte le mieux dans votre espace. Le mot de passe est le même pour tous les réseaux."
+        },
+        {
+          "question": "Comment réserver un repas ?",
+          "answer": "Les repas se réservent 72 h à l'avance. Les menus sont affichés sur ardoise."
+        },
+        {
+          "question": "Quand régler les boissons ?",
+          "answer": "Chaque consommation est notée sur la feuille prévue. Le règlement se fait au départ."
+        },
+        {
+          "question": "Qui contacter en cas de difficulté ?",
+          "answer": "Utilisez la rubrique Contacts utiles pour joindre la personne adaptée à votre demande."
+        }
+      ],
+      "icon": "question",
+      "media": {
+        "image": "images/faq.jpg",
+        "videos": []
+      },
+      "translations": {},
+      "cards": []
+    },
+    {
+      "id": "contacts",
+      "title": "Contacts utiles",
+      "summary": "Numéros et informations à garder sous la main.",
+      "image": "images/contacts.jpg",
+      "body": [
+        "Les contacts ci-dessous sont à utiliser selon la nature de votre demande.",
+        "En cas d'urgence, privilégiez toujours l'appel."
+      ],
+      "contacts": [
+        {
+          "label": "Résidence",
+          "name": "À compléter",
+          "phone": "+33 0 00 00 00 00",
+          "email": "contact@example.com"
+        },
+        {
+          "label": "Urgence technique",
+          "name": "À compléter",
+          "phone": "+33 0 00 00 00 00",
+          "email": ""
+        }
+      ],
+      "icon": "phone",
+      "media": {
+        "image": "images/contacts.jpg",
+        "videos": []
+      },
+      "translations": {},
+      "cards": []
+    }
+  ],
+  "future": [
+    "Recherche instantanée",
+    "Plan interactif",
+    "Multilingue",
+    "Ajout de vidéos",
+    "Ajout de PDF",
+    "Notifications",
+    "Mode hors connexion"
+  ],
+  "languages": [
+    {
+      "code": "fr",
+      "label": "Français"
+    },
+    {
+      "code": "en",
+      "label": "English"
+    },
+    {
+      "code": "es",
+      "label": "Español"
+    }
+  ],
+  "admin": {
+    "pin": "presles2026"
+  },
+  "kitchen": {
+    "pin": "cuisine2026",
+    "active": true,
+    "title": "Menu de la résidence",
+    "date": "À compléter",
+    "text": "Les menus seront publiés ici par l’équipe de cuisine.",
+    "cta": "Voir le menu"
+  },
+  "location": {
+    "address": "155 avenue de Vichy, 03300 Cusset",
+    "mapsUrl": "https://www.google.com/maps/search/?api=1&query=155%20avenue%20de%20Vichy%2003300%20Cusset"
+  }
+}

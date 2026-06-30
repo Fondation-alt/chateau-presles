@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Château de Presles">
+  <rect width="512" height="512" fill="#fbfaf7"/>
+  <path d="M104 338h304v38H104z" fill="#8d2732"/>
+  <path d="M136 212h240v126H136z" fill="#f1eee8" stroke="#23211d" stroke-width="10"/>
+  <path d="M118 212h276L256 118z" fill="#a98a52"/>
+  <path d="M180 252h44v86h-44zM288 252h44v86h-44z" fill="#fbfaf7" stroke="#23211d" stroke-width="8"/>
+  <path d="M236 272h40v66h-40z" fill="#8d2732"/>
+  <path d="M104 392h304" stroke="#23211d" stroke-width="10"/>
+</svg>

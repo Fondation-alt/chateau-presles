@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f7f4ef">
+    <title>Cuisine - Château de Presles</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+      .kitchen-admin {
+        max-width: 760px;
+        margin: 0 auto;
+        padding: 24px 18px 56px;
+      }
+
+      .kitchen-form,
+      .kitchen-actions {
+        display: grid;
+        gap: 14px;
+      }
+
+      label {
+        display: grid;
+        gap: 6px;
+        color: var(--muted);
+        font-size: 0.9rem;
+      }
+
+      input,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+        padding: 12px;
+      }
+
+      textarea {
+        min-height: 220px;
+        resize: vertical;
+      }
+
+      .kitchen-actions {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      }
+    </style>
+  </head>
+  <body>
+    <header class="topbar">
+      <a class="brand" href="index.html">
+        <span class="brand-title">Château de Presles</span>
+        <span class="brand-subtitle">Résidence artistique de la MNA Taylor</span>
+      </a>
+    </header>
+
+    <main class="kitchen-admin">
+      <section class="admin-intro">
+        <p class="kicker">Cuisine</p>
+        <h1>Menu</h1>
+        <p class="summary">Publiez rapidement le menu du jour ou de la semaine. Il apparaîtra dans Restauration et dans la bulle visible sur l'accueil.</p>
+      </section>
+
+      <form class="kitchen-form" id="kitchen-form">
+        <label>Afficher le menu<input id="kitchen-active" type="checkbox"></label>
+        <label>Titre<input id="kitchen-title"></label>
+        <label>Date ou période<input id="kitchen-date"></label>
+        <label>Texte du bouton<input id="kitchen-cta"></label>
+        <label>Menu<textarea id="kitchen-text"></textarea></label>
+        <div class="kitchen-actions">
+          <button class="action-button primary" type="submit">Enregistrer</button>
+          <button class="action-button" id="download-json" type="button">Exporter content.json</button>
+          <a class="action-button" href="admin.html">Administration complète</a>
+        </div>
+        <p class="status-line" id="status-line"></p>
+      </form>
+    </main>
+
+    <script src="cuisine.js" defer></script>
+  </body>
+</html>

@@ -1,0 +1,17 @@
+{
+  "name": "Château de Presles",
+  "short_name": "Presles",
+  "description": "Résidence artistique de la MNA Taylor",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#fbfaf7",
+  "theme_color": "#f7f4ef",
+  "icons": [
+    {
+      "src": "icons/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
